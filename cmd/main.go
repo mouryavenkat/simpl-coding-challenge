@@ -149,8 +149,17 @@ func main() {
 				}
 				fmt.Println(message)
 			}
+		case "help":
+			fmt.Println("1-new user <username> <email_id> <credit_limit>")
+			fmt.Println("2-new merchant <merchant_name> <email_id> <discount_percentage>")
+			fmt.Println("3-new txn <username> <merchant_name> <txn_value>")
+			fmt.Println("4-report users-at-credit-limit")
+			fmt.Println("5-report discount")
+			fmt.Println("6-report total-dues [<space separated usernames>]")
+			fmt.Println("7-payback <user_name> <amount>")
+			fmt.Println("8-set discount <merchant_name> <newer_discount_percentage>")
 		default:
-			fmt.Println("Enter valid command")
+			fmt.Println("Enter valid command ", text)
 		}
 	}
 

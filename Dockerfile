@@ -1,14 +1,8 @@
 # Get base centos image
 FROM centos:7
 
-#Install epel-release, debug tools, nginx, supervisor, boto packages.
-#Create required directories
 RUN \
-  yum install -y epel-release bison python-setuptools bzip2 wget make gcc gcc-c++ zlib-devel git lsof && \
-  easy_install supervisor &&  \
-  yum clean all && \
-  rm -f /etc/localtime && \
-  ln -s /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
+  yum install -y wget make gcc gcc-c++ git
 
 #Install Go
 RUN \
@@ -18,6 +12,8 @@ RUN \
   ln -s /usr/local/go/bin/go /bin/go && \
   ln -s /usr/local/go/bin/gofmt /bin/gofmt
 
+#Set environment variables
+ENV PATH=$PATH:/usr/local/go/bin:/usr/local/simpl/simpl-coding-challenge/bin
 ENV GO111MODULE=auto CGO_ENABLED=1
 ENV GODEBUG="madvdontneed=1"
 
