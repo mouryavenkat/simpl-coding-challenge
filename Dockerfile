@@ -6,7 +6,6 @@ FROM centos:7
 RUN \
   yum install -y epel-release bison python-setuptools bzip2 wget make gcc gcc-c++ zlib-devel git lsof && \
   easy_install supervisor &&  \
-  mkdir -p /logs/manthan /etc/supervisord.d  && \
   yum clean all && \
   rm -f /etc/localtime && \
   ln -s /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
