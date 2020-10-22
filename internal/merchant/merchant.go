@@ -19,7 +19,7 @@ func (m merchantInfo) AddNewMerchant(merchantName string, emailID string, mercha
 		log.Println("Error: " + createError.Error())
 		return message, createError
 	}
-	return fmt.Sprintf("Merchant (%.2f)", merchantDiscount), nil
+	return fmt.Sprintf("%s(%.2f)", merchantName, merchantDiscount), nil
 }
 
 func (m merchantInfo) UpdateDiscountPercentage(merchantName string, merchantDiscount float64) (message string, err error) {
@@ -27,7 +27,7 @@ func (m merchantInfo) UpdateDiscountPercentage(merchantName string, merchantDisc
 		log.Println("Error: " + updateError.Error())
 		return message, updateError
 	}
-	return fmt.Sprintf("Merchant (%f)", merchantDiscount), nil
+	return fmt.Sprintf("%s(%.2f)", merchantName, merchantDiscount), nil
 }
 
 func (m merchantInfo) GetTotalMerchantDiscount(merchantName string) (merchantDiscount float64, err error) {

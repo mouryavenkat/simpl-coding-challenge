@@ -26,7 +26,7 @@ func (u *userInfo) AddNewUser(userName string, userEmail string, creditLimit int
 		log.Println("Error: " + createError.Error())
 		return message, createError
 	}
-	return fmt.Sprintf("userName(%d)", creditLimit), nil
+	return fmt.Sprintf("%s(%d)", userName, creditLimit), nil
 }
 
 func (u *userInfo) Purchase(userName string, merchantName string, transactionAmount int64) (message string, err error) {
@@ -42,7 +42,7 @@ func (u *userInfo) Purchase(userName string, merchantName string, transactionAmo
 			return "", err
 		}
 	}
-
+	defer rows.Close()
 	rows, err = u.dbClient.Query("select merchant_discount from merchant_details where merchant_name = ?", merchantName)
 	if err != nil {
 		return "", err
@@ -52,7 +52,7 @@ func (u *userInfo) Purchase(userName string, merchantName string, transactionAmo
 			return "", err
 		}
 	}
-
+	defer rows.Close()
 	txn, err := u.dbClient.Begin()
 	if err != nil {
 		return "", err
@@ -103,6 +103,7 @@ func (u *userInfo) GetDueAmount(userNames ...string) (dueAmounts map[string]int6
 	if err != nil {
 		return nil, err
 	}
+	defer rows.Close()
 	dueAmounts = make(map[string]int64)
 	for rows.Next() {
 		var userName string
@@ -120,6 +121,7 @@ func (u *userInfo) GetCreditLimitExceededUsers() (users []string, err error) {
 	if err != nil {
 		return nil, err
 	}
+	defer rows.Close()
 	for rows.Next() {
 		var userName string
 		if err = rows.Scan(&userName); err != nil {
@@ -135,6 +137,7 @@ func (u *userInfo) GetTotalUserDues() (dueAmount int64, err error) {
 	if err != nil {
 		return
 	}
+	defer rows.Close()
 	for rows.Next() {
 		if err = rows.Scan(&dueAmount); err != nil {
 			return 0, err

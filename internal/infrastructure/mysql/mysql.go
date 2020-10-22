@@ -2,6 +2,8 @@ package mysql
 
 import (
 	"database/sql"
+	"errors"
+	"github.com/go-sql-driver/mysql"
 	"simpl-coding-challenge/internal/infrastructure"
 )
 
@@ -18,6 +20,11 @@ func (m *mysqlWrapper) Insert(query string, args ...interface{}) error {
 	}
 	_, err = statement.Exec(args...)
 	if err != nil {
+		if errorType, ok := err.(*mysql.MySQLError); ok {
+			if errorType.Number == 1062 {
+				return errors.New("can't create a duplicate name")
+			}
+		}
 		return err
 	}
 	return nil
