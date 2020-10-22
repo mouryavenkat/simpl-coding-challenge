@@ -1,0 +1,20 @@
+version: '3.7'
+services:
+  mysqldb:
+    image: mysql:5.7
+    ports:
+      - "3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootroot
+      MYSQL_USER: giuser
+      MYSQL_PASSWORD: gi1234
+      MYSQL_DATABASE: simpl
+  simpl:
+    build:
+      context: .
+    volumes:
+      - .:/usr/local/simpl/simpl-coding-challenge
+    depends_on:
+      - mysqldb
+#    command: /bin/bash "go build -v -o ./usr/local/simpl/simpl-coding-challenge/bin ./usr/local/simpl/simpl-coding-challenge/cmd/ && ./usr/local/simpl/simpl-coding-challenge/bin/cmd"
+    command: tail -F anything
